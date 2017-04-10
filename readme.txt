@@ -1,2 +1,2 @@
 Hello GitHub!
-Git is awesome software!
+Git is an awesome software!
