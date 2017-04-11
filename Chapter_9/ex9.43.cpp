@@ -1,0 +1,46 @@
+/* Chapter9.5.2--ex9.43--P324 
+ * 接受三个string参数s oldVal newVal，使用迭代器及insert & erase
+ * 将s中所有 oldVal 替换为 newVal
+ *
+ */
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+void replace_String(string& s, const string& oldVal, const string& newVal)
+{
+    auto oldsize = oldVal.size();
+    if (!oldsize) return;
+    
+    auto begin = s.begin();
+    while (begin <= s.end()-oldsize) {  //s 剩余字符长度小于 oldVal
+        auto iter1 = begin;
+        auto iter2 = oldVal.begin();
+        //当前 iter1 指向的 s 内容开头需与 oldVal 开头一致
+        while (iter2 != oldVal.end() && *iter1 == *iter2) {
+            iter1++;
+            iter2++;
+        }
+        if (iter2 == oldVal.end()) {  //当前字符串相等
+            begin = s.erase(begin, iter1);  //erase 掉 [begin, iter1]
+            //替换
+            if (newVal.size()) {
+                auto iter3 = newVal.end();
+                do {
+                    iter3--;
+                    begin = s.insert(begin, *iter3);
+                } while(iter3 > newVal.begin());
+            }
+            begin += newVal.size();
+        }
+        else begin++;
+    }
+}
+int main()
+{
+    string s="tho thru tho!";
+    replace_String(s, "thru", "through");
+    cout<<s<<endl;
+    return 0;
+}
